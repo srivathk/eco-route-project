@@ -1,20 +1,25 @@
-class Route:
-    def __init__(self, name, distance, stops, elevation, avg_speed):
-        self.name = name
+class Edge:
+    def __init__(self, distance, stops, elevation, avg_speed):
         self.distance = distance
         self.stops = stops
         self.elevation = elevation
         self.avg_speed = avg_speed
 
-        self.emissions = None
-        self.time = None
+        
+    def emissions(self):
+        base = self.distance * 120      # ~120g CO₂ per mile (rough)
+        stop_penalty = self.stops * 20  # idling/acceleration
+        elevation_penalty = self.elevation * 0.2
+        return base + stop_penalty + elevation_penalty
+    def time(self):
+        drive_time = (self.distance / self.avg_speed) * 60  # minutes
+        stop_delay = self.stops * 0.5                       # 30s per stop
+        elevation_delay = self.elevation * 0.01             # tune this
+        return drive_time + stop_delay + elevation_delay
+    def cost(self, weightage):
+        return (self.time() + (self.emissions() * weightage))
 
-        self.balanced_score = None
-        
-    def compute_metrics(self):
-        self.emissions = (self.distance * 0.2) + (self.stops * 0.05) + (self.elevation * 0.001)
-        self.time = (self.distance / self.avg_speed) + (self.stops * 0.01) + (self.elevation * 0.0005)
-        
+
 
 
  
