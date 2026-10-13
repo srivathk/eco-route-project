@@ -16,8 +16,11 @@ class Edge:
         stop_delay = self.stops * 0.5                       # 30s per stop
         elevation_delay = self.elevation * 0.01             # tune this
         return drive_time + stop_delay + elevation_delay
-    def cost(self, weightage):
-        return (self.time() + (self.emissions() * weightage))
+    def cost(self, weightage, time_reference, emissions_reference):
+        normalized_time = self.time() / time_reference
+        normalized_emissions = self.emissions() / emissions_reference
+
+        return (1 - weightage) * normalized_time + weightage * normalized_emissions
 
 
 

@@ -9,7 +9,7 @@ def get_emissions_weight():
             emissions_weight = float(user_input)
 
             if 0 <= emissions_weight <= 1:
-                return (0.00 + (emissions_weight * (0.50)))
+                return (emissions_weight)
             else:
                 print("Please enter a number between 0 and 1.")
 
