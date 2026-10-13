@@ -1,0 +1,5 @@
+osmnx>=2.0,<3
+networkx>=3
+shapely>=2
+pyproj>=3
+geopandas>=1

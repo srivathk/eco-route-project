@@ -1,0 +1,28 @@
+# Virtual environments
+.venv*/
+venv/
+venv-*/
+env/
+ENV/
+.env/
+
+# Python bytecode and temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+*.py~
+*.py.bak
+*.py.tmp
+*.py.swp
+*.py.swo
+
+# Local state, caches, and generated output
+.pvnc/
+cache/
+output/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# macOS metadata
+.DS_Store
