@@ -1,5 +1,9 @@
+# Python 3.12
 osmnx>=2.0,<3
 networkx>=3
 shapely>=2
 pyproj>=3
 geopandas>=1
+routee.powertrain>=2,<3
+pandas>=2,<3
+scikit-learn>=1.5,<2

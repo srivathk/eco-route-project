@@ -23,7 +23,7 @@ class RouteTests(unittest.TestCase):
                           name=['Main Street', 'Main Street', 'Connector'], ref=['R1', 'R2'],
                           geometry=LineString([(-121.979, 37.75), (-121.9795, 37.7502), (-121.98, 37.75)]))
         self.osm.add_edge(2, 3, key=9, length=100, speed_kph=40, highway='residential')
-        self.graph = build_graph(self.osm)
+        self.graph = build_graph(self.osm, emissions_source="baseline")
 
     def details(self):
         return [describe_route(self.osm, self.graph, path, name, cost)

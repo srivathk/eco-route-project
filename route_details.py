@@ -49,10 +49,18 @@ def describe_route(osm_graph, graph, path, name, cost, weight=0.5):
                              label=road_label, highway=road_type or None,
                              distance_m=edge.distance * 1609.344,
                              travel_time_min=edge.time(), emissions_g=edge.emissions(),
+                             emissions_source=edge.emissions_source,
+                             emissions_model=edge.emissions_model, fuel_gge=edge.fuel_gge,
                              coordinates=shape))
     if not coordinates:
         coordinates = [node_coordinate(osm_graph, path.nodes[0])]
-    return dict(route_type=name, objective_cost=cost, emissions_weight=weight,
+    all_edges = (e for neighbors in graph.values() for roads in neighbors.values() for e in roads.values())
+    source_edge = graph[path.edges[0][0]][path.edges[0][1]][path.edges[0][2]] if path.edges else next(all_edges, None)
+    return dict(emissions_source=source_edge.emissions_source if source_edge else None,
+                emissions_model=source_edge.emissions_model if source_edge else None,
+                fuel_gge=sum(s["fuel_gge"] for s in segments) if source_edge and source_edge.emissions_source == "routee" else None,
+                co2_g_per_gallon=8887 if source_edge and source_edge.emissions_source == "routee" else None,
+                route_type=name, objective_cost=cost, emissions_weight=weight,
                 distance_m=sum(s['distance_m'] for s in segments),
                 travel_time_min=sum(s['travel_time_min'] for s in segments),
                 emissions_g=sum(s['emissions_g'] for s in segments),
